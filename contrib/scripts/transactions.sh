@@ -23,7 +23,7 @@ echo "\n\nRunning bank tests"
 go run $contrib/integration/bank/main.go
 
 echo "\n\nRunning account upsert tests"
-# go run $GOPATH/src/github.com/dgraph-io/dgraph/contrib/integration/acctupsert/main.go
+go run $GOPATH/src/github.com/dgraph-io/dgraph/contrib/integration/acctupsert/main.go
 
 echo "\n\n Running sentence swap tests"
 pushd $contrib/integration/swap
