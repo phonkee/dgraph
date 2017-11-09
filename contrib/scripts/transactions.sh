@@ -12,13 +12,12 @@ set -e
 
 echo "Running transaction tests."
 
-source ./contrib/scripts/functions.sh
+contrib=$GOPATH/src/github.com/dgraph-io/dgraph/contrib
+source $contrib/scripts/functions.sh
 
 startZero
 
 start
-
-contrib=$GOPATH/src/github.com/dgraph-io/dgraph/contrib
 
 echo "\n\nRunning bank tests"
 go run $contrib/integration/bank/main.go
