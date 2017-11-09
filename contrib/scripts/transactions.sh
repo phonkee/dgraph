@@ -7,6 +7,7 @@ BUILD=$1
 if [ -z "$1" ]; then
   BUILD=$SRC/build
 fi
+mkdir -p $BUILD
 
 set -e
 
