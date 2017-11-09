@@ -28,5 +28,12 @@ go run $GOPATH/src/github.com/dgraph-io/dgraph/contrib/integration/acctupsert/ma
 echo "\n\n Running sentence swap tests"
 pushd $contrib/integration/swap
 go build . && ./swap
+popd
+
+echo "\n\n Running mutate from #1750."
+pushd $contrib/integration/mutates
+go build . && ./mutates --add
+./mutates
+popd
 
 quit 0
