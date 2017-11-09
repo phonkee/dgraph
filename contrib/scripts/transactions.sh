@@ -20,11 +20,14 @@ start
 
 contrib=$GOPATH/src/github.com/dgraph-io/dgraph/contrib
 
-echo "bank tests"
-go run $contrib/bank/main.go
+echo "\n\nRunning bank tests"
+go run $contrib/integration/bank/main.go
 
-echo "account upsert tests"
-# go run $GOPATH/src/github.com/dgraph-io/dgraph/contrib/acctupsert/main.go
+echo "\n\nRunning account upsert tests"
+# go run $GOPATH/src/github.com/dgraph-io/dgraph/contrib/integration/acctupsert/main.go
 
-echo "Running sentence swap tests"
-go run $contrib/sentenceswap/main.go $contrib/sentenceswap/words.go
+echo "\n\n Running sentence swap tests"
+pushd $contrib/integration/swap
+go build . && ./swap
+
+quit 0
