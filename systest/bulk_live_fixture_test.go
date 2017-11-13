@@ -76,7 +76,7 @@ func (s *suite) setup(schemaFile, rdfFile string) {
 	bulkCmd := exec.Command(os.ExpandEnv("$GOPATH/bin/dgraph"), "bulk",
 		"-r", rdfFile,
 		"-s", schemaFile,
-		"--http", ":"+freePort(),
+		"--http", ":"+strconv.Itoa(freePort()),
 		"-z", ":"+s.bulkCluster.zeroPort,
 		"-j=1",
 		"-x=true",
@@ -172,7 +172,7 @@ func init() {
 	rand.Seed(int64(time.Now().Nanosecond()))
 }
 
-func freePort() string {
+func freePort() int {
 	// Linux reuses ports in FIFO order. So a port that we listen on and then
 	// release will be free for a long time.
 	for {
@@ -180,7 +180,7 @@ func freePort() string {
 		listener, err := net.Listen("tcp", fmt.Sprintf(":%d", p))
 		if err == nil {
 			listener.Close()
-			return strconv.Itoa(p)
+			return p
 		}
 	}
 }
