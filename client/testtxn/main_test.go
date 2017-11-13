@@ -272,7 +272,7 @@ func TestTxnRead5(t *testing.T) {
 		Query: q,
 	}
 
-	conn, err := grpc.Dial("localhost:9080", grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:9081", grpc.WithInsecure())
 	if err != nil {
 		log.Fatal(err)
 	}
