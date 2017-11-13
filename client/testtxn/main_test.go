@@ -48,6 +48,7 @@ func TestMain(m *testing.M) {
 		"server",
 		"--memory_mb=2048",
 		"--zero=127.0.0.1:7080",
+		"-o=1",
 	)
 	dgraph.Stdout = os.Stdout
 	dgraph.Stderr = os.Stderr
