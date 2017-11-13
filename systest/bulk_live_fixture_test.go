@@ -176,7 +176,8 @@ func freePort() int {
 	// Linux reuses ports in FIFO order. So a port that we listen on and then
 	// release will be free for a long time.
 	for {
-		p := 20000 + rand.Intn(40000)
+		// p + 7080 and p + 9080 must lie within [20000, 60000]
+		p := 14000 + rand.Intn(30000)
 		listener, err := net.Listen("tcp", fmt.Sprintf(":%d", p))
 		if err == nil {
 			listener.Close()
