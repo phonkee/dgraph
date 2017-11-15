@@ -76,6 +76,7 @@ func init() {
 
 	// TLS configuration
 	x.SetTLSFlags(&tlsConf, flag)
+	flag.StringVar(&tlsConf.ServerName, "tls.server_name", "", "Server name.")
 }
 
 // Reads a single line from a buffered reader. The line is read into the
@@ -204,6 +205,7 @@ func (l *loader) processFile(ctx context.Context, file string) error {
 }
 
 func setupConnection(host string, insecure bool) (*grpc.ClientConn, error) {
+	fmt.Println("host", host, "insecure", insecure)
 	if insecure {
 		return grpc.Dial(host,
 			grpc.WithDefaultCallOptions(
@@ -212,7 +214,18 @@ func setupConnection(host string, insecure bool) (*grpc.ClientConn, error) {
 			grpc.WithInsecure())
 	}
 
-	tlsCfg, _, err := x.GenerateTLSConfig(tlsConf)
+	tlsCfg, _, err := x.GenerateTLSConfig(x.TLSHelperConfig{
+		ConfigType:           x.TLSClientConfig,
+		Insecure:             tlsConf.Insecure,
+		ServerName:           tlsConf.ServerName,
+		Cert:                 tlsConf.Cert,
+		Key:                  tlsConf.Key,
+		KeyPassphrase:        tlsConf.KeyPassphrase,
+		RootCACerts:          tlsConf.RootCACerts,
+		UseSystemRootCACerts: tlsConf.UseSystemRootCACerts,
+		MinVersion:           tlsConf.MinVersion,
+		MaxVersion:           tlsConf.MaxVersion,
+	})
 	if err != nil {
 		return nil, err
 	}
