@@ -76,6 +76,7 @@ func init() {
 
 	// TLS configuration
 	x.SetTLSFlags(&tlsConf, flag)
+	flag.BoolVar(&tlsConf.Insecure, "tls.insecure", false, "Skip certificate validation (insecure)")
 	flag.StringVar(&tlsConf.ServerName, "tls.server_name", "", "Server name.")
 }
 
@@ -214,18 +215,10 @@ func setupConnection(host string, insecure bool) (*grpc.ClientConn, error) {
 			grpc.WithInsecure())
 	}
 
-	tlsCfg, _, err := x.GenerateTLSConfig(x.TLSHelperConfig{
-		ConfigType:           x.TLSClientConfig,
-		Insecure:             tlsConf.Insecure,
-		ServerName:           tlsConf.ServerName,
-		Cert:                 tlsConf.Cert,
-		Key:                  tlsConf.Key,
-		KeyPassphrase:        tlsConf.KeyPassphrase,
-		RootCACerts:          tlsConf.RootCACerts,
-		UseSystemRootCACerts: tlsConf.UseSystemRootCACerts,
-		MinVersion:           tlsConf.MinVersion,
-		MaxVersion:           tlsConf.MaxVersion,
-	})
+	tlsConf.ConfigType = x.TLSClientConfig
+	tlsConf.CertRequired = false
+	fmt.Printf("tlsCnf: %+v\n", tlsConf)
+	tlsCfg, _, err := x.GenerateTLSConfig(tlsConf)
 	if err != nil {
 		return nil, err
 	}

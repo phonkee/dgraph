@@ -110,6 +110,8 @@ func init() {
 
 	// TLS configurations
 	x.SetTLSFlags(&tlsConf, flag)
+	flag.StringVar(&tlsConf.ClientAuth, "tls.client_auth", "", "Enable TLS client authentication")
+	tlsConf.ConfigType = x.TLSServerConfig
 
 	//Custom plugins.
 	flag.StringVar(&customTokenizers, "custom_tokenizers", "",
@@ -215,18 +217,11 @@ func setupListener(addr string, port int) (listener net.Listener, err error) {
 		listener, err = net.Listen("tcp", laddr)
 	} else {
 		var tlsCfg *tls.Config
-		tlsCfg, reload, err = x.GenerateTLSConfig(x.TLSHelperConfig{
-			ConfigType:             x.TLSServerConfig,
-			CertRequired:           tlsConf.CertRequired,
-			Cert:                   tlsConf.Cert,
-			Key:                    tlsConf.Key,
-			KeyPassphrase:          tlsConf.KeyPassphrase,
-			ClientAuth:             tlsConf.ClientAuth,
-			ClientCACerts:          tlsConf.ClientCACerts,
-			UseSystemClientCACerts: tlsConf.UseSystemClientCACerts,
-			MinVersion:             tlsConf.MinVersion,
-			MaxVersion:             tlsConf.MaxVersion,
-		})
+		fmt.Printf("Conf: %+v\n", tlsConf)
+		tlsCfg, reload, err = x.GenerateTLSConfig(tlsConf)
+		if err != nil {
+			return nil, err
+		}
 		listener, err = tls.Listen("tcp", laddr, tlsCfg)
 	}
 	go func() {

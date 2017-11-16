@@ -6,6 +6,7 @@ DGRAPH_ROOT=$GOPATH/src/github.com/dgraph-io/dgraph/dgraph
 function build {
   pushd $DGRAPH_ROOT > /dev/null
   go build .
+  ./dgraph
   popd > /dev/null
 }
 
