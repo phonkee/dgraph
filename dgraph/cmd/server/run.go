@@ -111,6 +111,7 @@ func init() {
 	// TLS configurations
 	x.SetTLSFlags(&tlsConf, flag)
 	flag.StringVar(&tlsConf.ClientAuth, "tls.client_auth", "", "Enable TLS client authentication")
+	flag.StringVar(&tlsConf.ClientCACerts, "tls.ca_certs", "", "CA Certs file path.")
 	tlsConf.ConfigType = x.TLSServerConfig
 
 	//Custom plugins.

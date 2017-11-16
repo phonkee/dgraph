@@ -77,6 +77,7 @@ func init() {
 	// TLS configuration
 	x.SetTLSFlags(&tlsConf, flag)
 	flag.BoolVar(&tlsConf.Insecure, "tls.insecure", false, "Skip certificate validation (insecure)")
+	flag.StringVar(&tlsConf.RootCACerts, "tls.ca_certs", "", "CA Certs file path.")
 	flag.StringVar(&tlsConf.ServerName, "tls.server_name", "", "Server name.")
 }
 
