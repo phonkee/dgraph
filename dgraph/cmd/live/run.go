@@ -218,7 +218,6 @@ func setupConnection(host string, insecure bool) (*grpc.ClientConn, error) {
 
 	tlsConf.ConfigType = x.TLSClientConfig
 	tlsConf.CertRequired = false
-	fmt.Printf("tlsCnf: %+v\n", tlsConf)
 	tlsCfg, _, err := x.GenerateTLSConfig(tlsConf)
 	if err != nil {
 		return nil, err

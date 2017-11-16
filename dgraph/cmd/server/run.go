@@ -218,7 +218,6 @@ func setupListener(addr string, port int) (listener net.Listener, err error) {
 		listener, err = net.Listen("tcp", laddr)
 	} else {
 		var tlsCfg *tls.Config
-		fmt.Printf("Conf: %+v\n", tlsConf)
 		tlsCfg, reload, err = x.GenerateTLSConfig(tlsConf)
 		if err != nil {
 			return nil, err
