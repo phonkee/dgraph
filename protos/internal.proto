@@ -312,6 +312,7 @@ message SchemaUpdate {
 	bool count = 5;
 	bool list = 6;
 	bool explicit = 7; // whether schema was set by the user.
+	bool noConflict = 8;
 }
 
 // Bulk loader proto.

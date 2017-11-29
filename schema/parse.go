@@ -71,6 +71,8 @@ func parseDirective(it *lex.ItemIterator, schema *intern.SchemaUpdate, t types.T
 		}
 	case "count":
 		schema.Count = true
+	case "noconflict":
+		schema.NoConflict = true
 	default:
 		return x.Errorf("Invalid index specification")
 	}
@@ -132,14 +134,8 @@ func parseScalarPair(it *lex.ItemIterator, predicate string) (*intern.SchemaUpda
 		}
 		next = it.Item()
 	}
-	if next.Typ == itemAt {
-		if err := parseDirective(it, schema, t); err != nil {
-			return nil, err
-		}
-		next = it.Item()
-	}
-	// Check for another directive, we could have @count too.
-	if next.Typ == itemAt {
+	// Check for directives, we could have upto 3: @count @async @reverse/index.
+	for i := 0; i < 3 && next.Typ == itemAt; i++ {
 		if err := parseDirective(it, schema, t); err != nil {
 			return nil, err
 		}

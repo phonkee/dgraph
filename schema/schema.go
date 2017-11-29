@@ -203,6 +203,15 @@ func (s *state) HasCount(pred string) bool {
 	return false
 }
 
+func (s *state) NoConflict(pred string) bool {
+	s.RLock()
+	defer s.RUnlock()
+	if schema, ok := s.predicate[pred]; ok {
+		return schema.NoConflict
+	}
+	return false
+}
+
 // IsList returns whether the predicate is of list type.
 func (s *state) IsList(pred string) bool {
 	s.RLock()

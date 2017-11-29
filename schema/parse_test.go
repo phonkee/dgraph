@@ -170,8 +170,8 @@ func TestSchemaIndex_Error3(t *testing.T) {
 var schemaIndexVal5 = `
 age     : int @index(int) .
 name    : string @index(exact) @count .
-address : string @index(term) .
-friend  : uid @reverse @count .
+address : string @index(term) @noconflict .
+friend  : uid @reverse @count @noconflict .
 `
 
 func TestSchemaIndexCustom(t *testing.T) {
@@ -190,11 +190,12 @@ func TestSchemaIndexCustom(t *testing.T) {
 			Explicit:  true,
 		}},
 		{"address", &intern.SchemaUpdate{
-			Predicate: "address",
-			ValueType: intern.Posting_STRING,
-			Tokenizer: []string{"term"},
-			Directive: intern.SchemaUpdate_INDEX,
-			Explicit:  true,
+			Predicate:  "address",
+			ValueType:  intern.Posting_STRING,
+			Tokenizer:  []string{"term"},
+			Directive:  intern.SchemaUpdate_INDEX,
+			Explicit:   true,
+			NoConflict: true,
 		}},
 		{"age", &intern.SchemaUpdate{
 			Predicate: "age",
@@ -204,11 +205,12 @@ func TestSchemaIndexCustom(t *testing.T) {
 			Explicit:  true,
 		}},
 		{"friend", &intern.SchemaUpdate{
-			ValueType: intern.Posting_UID,
-			Predicate: "friend",
-			Directive: intern.SchemaUpdate_REVERSE,
-			Count:     true,
-			Explicit:  true,
+			ValueType:  intern.Posting_UID,
+			Predicate:  "friend",
+			Directive:  intern.SchemaUpdate_REVERSE,
+			Count:      true,
+			Explicit:   true,
+			NoConflict: true,
 		}},
 	})
 	require.True(t, State().IsIndexed("name"))
