@@ -165,7 +165,7 @@ func setup(c *client.Dgraph, sentences []string) []string {
 		DropAll: true,
 	}))
 	x.Check(c.Alter(ctx, &api.Operation{
-		Schema: `sentence: string @index(term) .`,
+		Schema: `sentence: string @index(term) @async .`,
 	}))
 
 	rdfs := ""
